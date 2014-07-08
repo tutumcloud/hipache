@@ -45,3 +45,15 @@ The default values are defined in `Dockerfile`:
 	ENV SERVER_ADDRESS 0.0.0.0
 	ENV DRIVER redis:
 
+
+Linking a redis container
+-------------------------
+
+You can also link a redis container using `redis` as a link name to automatically configure the `driver` setting:
+
+	docker run -d -p 80:80 --link redis:redis tutum/hipache
+
+In this case, there are two other environment variables that apply:
+
+* `REDIS_ENV_REDIS_PASS` (optional) with the password to authenticate to the redis instance. Set automatically if using `tutum/redis` as the image for the redis container.
+* `REDIS_DB` with the redis database to use (default: `0`)
