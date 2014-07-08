@@ -1,0 +1,19 @@
+{
+    "server": {
+        "accessLog": "{{ SERVER_ACCESSLOG }}",
+        "workers": {{ SERVER_WORKERS }},
+        "maxSockets": {{ SERVER_MAXSOCKETS }},
+        "deadBackendTTL": {{ SERVER_DEADBACKENDTTL }},
+        "tcpTimeout": {{ SERVER_TCPTIMEOUT }},
+        "retryOnError": {{ SERVER_RETRYONERROR }},
+        "deadBackendOn500": {{ SERVER_DEADBACKENDON500 }},
+        "httpKeepAlive": {{ SERVER_HTTPKEEPALIVE }},
+        "lruCache": {
+            "size": {{ SERVER_LRUCACHE_SIZE }},
+            "ttl": {{ SERVER_LRUCACHE_TTL }}
+        },
+        "port": {{ SERVER_PORT }},
+        "address": ["{{ SERVER_ADDRESS }}"]
+    },
+    "driver": "{{ DRIVER }}"
+}
