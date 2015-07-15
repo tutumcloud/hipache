@@ -38,4 +38,4 @@ cp $TEMPLATE $CONFIGFILE
 
 echo "Using configuration file:"
 cat $CONFIGFILE
-exec supervisord -n
+exec supervisord -n -c /etc/supervisor/supervisord.conf
