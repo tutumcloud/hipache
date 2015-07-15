@@ -26,10 +26,10 @@ if [ ! -z "$REDIS_HOST" ]; then
 	else
 		sed -i "s|{{ DRIVER }}|redis://${REDIS_HOST}:${REDIS_PORT:-6379}/${REDIS_DB:-0}|g" $TEMPLATE
 	fi
-  # Disable autostart of Redis in current container:
-  # add "autostart=false" to [program:redis] (if not yet added).
-  sed -i -e '/^\[program:redis\]$/ { N; s/\[program:redis\]\(\nautostart=false\)\?/[program:redis]\nautostart=false/ }' \
-      /etc/supervisor/conf.d/supervisord.conf
+        # Disable autostart of Redis in current container:
+        # add "autostart=false" to [program:redis] (if not yet added).
+        sed -i -e '/^\[program:redis\]$/ { N; s/\[program:redis\]\(\nautostart=false\)\?/[program:redis]\nautostart=false/ }' \
+                /etc/supervisor/conf.d/supervisord.conf
 else
 	sed -i "s|{{ DRIVER }}|${DRIVER}|g" $TEMPLATE
 fi
