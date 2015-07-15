@@ -14,14 +14,9 @@ sed -i "s|{{ SERVER_LRUCACHE_TTL }}|${SERVER_LRUCACHE_TTL}|g" $TEMPLATE
 sed -i "s|{{ SERVER_PORT }}|${SERVER_PORT}|g" $TEMPLATE
 sed -i "s|{{ SERVER_ADDRESS }}|${SERVER_ADDRESS}|g" $TEMPLATE
 if [ ! -z "$REDIS_PORT_6379_TCP_ADDR" ]; then
-	REDIS_HOST=$REDIS_PORT_6379_TCP_ADDR
+	REDIS_HOST=redis
 	REDIS_PORT=$REDIS_PORT_6379_TCP_PORT
 	REDIS_PASSWORD=$REDIS_ENV_REDIS_PASS
-elif [ ! -z "$REDIS_1_PORT_6379_TCP_ADDR" ]; then
-	# Fig link
-	REDIS_HOST=$REDIS_1_PORT_6379_TCP_ADDR
-	REDIS_PORT=$REDIS_1_PORT_6379_TCP_PORT
-	REDIS_PASSWORD=$REDIS_1_ENV_REDIS_PASS
 fi
 
 if [ ! -z "$REDIS_HOST" ]; then
@@ -31,6 +26,10 @@ if [ ! -z "$REDIS_HOST" ]; then
 	else
 		sed -i "s|{{ DRIVER }}|redis://${REDIS_HOST}:${REDIS_PORT:-6379}/${REDIS_DB:-0}|g" $TEMPLATE
 	fi
+        # Disable autostart of Redis in current container:
+        # add "autostart=false" to [program:redis] (if not yet added).
+        sed -i -e '/^\[program:redis\]$/ { N; s/\[program:redis\]\(\nautostart=false\)\?/[program:redis]\nautostart=false/ }' \
+                /etc/supervisor/conf.d/supervisord.conf
 else
 	sed -i "s|{{ DRIVER }}|${DRIVER}|g" $TEMPLATE
 fi
